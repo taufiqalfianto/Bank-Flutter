@@ -144,7 +144,6 @@ class _SignUpSetProfilePageState extends State<SignUpSetProfilePage> {
                     } else {
                       customsnackbar(context, 'PIN harus 6 digit');
                     }
-                    
                   },
                 ),
               ],

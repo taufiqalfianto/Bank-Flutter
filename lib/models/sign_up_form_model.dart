@@ -1,10 +1,10 @@
 class SignUpFormModel {
-  final String? name;
-  final String? email;
-  final String? password;
-  final String? pin;
-  final String? profilePicture;
-  final String? ktp;
+   String? name;
+   String? email;
+   String? password;
+   String? pin;
+   String? profilePicture;
+   String? ktp;
 
   SignUpFormModel({
     this.name,
@@ -15,7 +15,7 @@ class SignUpFormModel {
     this.ktp,
   });
 
-  Map<String, dynamic> tojson() {
+  Map<String, dynamic> toJson() {
     return {
       'name': name,
       'email': email,

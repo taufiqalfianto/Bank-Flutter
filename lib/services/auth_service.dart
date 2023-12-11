@@ -28,12 +28,12 @@ class AuthService {
 
   Future<UserModel> register(SignUpFormModel data) async {
     try {
-      print(data.tojson());
+      print(data.toJson());
       final res = await http.post(
         Uri.parse(
           '$baseurl/register',
         ),
-        body: data.tojson(),
+        body: data.toJson(),
       );
 
       if (res.statusCode == 200 || res.statusCode == 201) {

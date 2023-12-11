@@ -146,8 +146,6 @@ class _SignUpSetKtpPageState extends State<SignUpSetKtpPage> {
                           print(state.toString());
                           customsnackbar(context, 'KTP harus diisi');
                         }
-                        // print(selectedImage!.path.toString());
-                        // print(widget.data.toString());
                         print(widget.data.toString());
                       },
                     ),
