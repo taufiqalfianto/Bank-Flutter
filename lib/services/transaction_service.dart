@@ -16,7 +16,7 @@ class TransactionService {
         headers: {
           'Authorization': token,
         },
-        body: data.tojson(),
+        body: data.toJson(),
       );
 
       if (response.statusCode == 200) {

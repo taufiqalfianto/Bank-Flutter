@@ -9,7 +9,7 @@ class TopupFormModel {
     this.paymentMethod,
   });
 
-  Map<String, dynamic> tojson() => {
+  Map<String, dynamic> toJson() => {
         'amount': amount,
         'pin': pin,
         'payment_method_code': paymentMethod,

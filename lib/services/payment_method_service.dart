@@ -19,12 +19,13 @@ class PaymentMethodService {
       );
 
       if (response.statusCode == 200) {
-        return List<PaymentMethodModel>.from(
+        List<PaymentMethodModel> paymentMethods = List<PaymentMethodModel>.from(
           jsonDecode(response.body).map(
-            (PaymentMethod) =>
-                PaymentMethodModel.fromJson(PaymentMethod),
+            (paymentMethod) => PaymentMethodModel.fromJson(paymentMethod),
           ),
         ).toList();
+
+        return paymentMethods;
       } else {
         throw jsonDecode(response.body)['message'];
       }

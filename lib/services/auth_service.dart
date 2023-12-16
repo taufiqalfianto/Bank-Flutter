@@ -35,6 +35,9 @@ class AuthService {
         ),
         body: data.toJson(),
       );
+      print(data.toJson());
+      print(res.body);
+      print(res.statusCode);
 
       if (res.statusCode == 200 || res.statusCode == 201) {
         UserModel user = UserModel.fromJson(jsonDecode(res.body));

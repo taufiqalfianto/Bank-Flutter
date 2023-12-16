@@ -15,7 +15,7 @@ customsnackbar(BuildContext context, String message) {
   ).show(context);
 }
 
-String formatcurrency(num number, {String symbol = 'Rp'}) {
+String formatcurrency(num number, {String symbol = 'Rp.'}) {
   return NumberFormat.currency(
     locale: 'id',
     symbol: symbol,

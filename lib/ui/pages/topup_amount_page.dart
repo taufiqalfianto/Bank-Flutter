@@ -58,8 +58,8 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
             decimalDigits: 0,
             symbol: '',
           ).format(
-            int.parse(
-              text.replaceAll('', '.'),
+            int.tryParse(
+              text.replaceAll(RegExp(r'[^0-9]'), ''),
             ),
           ),
         );
@@ -79,13 +79,18 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
             }
 
             if (state is TransactionSucces) {
-              await launchUrl(Uri.parse(state.redirectUrl));
+              launchUrl(Uri.parse(state.redirectUrl));
 
               Navigator.pushNamedAndRemoveUntil(
                   context, '/topup-succes', (route) => false);
             }
           },
           builder: (context, state) {
+            if (state is AuthLoading) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             return ListView(
               padding: const EdgeInsets.symmetric(horizontal: 58),
               children: [
@@ -242,7 +247,8 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
                             Transaction(
                               widget.data.copywith(
                                 pin: pin,
-                                amount: amountcontroller.text,
+                                amount:
+                                    amountcontroller.text.replaceAll('.', ''),
                               ),
                             ),
                           );

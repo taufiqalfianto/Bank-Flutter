@@ -59,7 +59,7 @@ class _TopupPageState extends State<TopupPage> {
                       children: [
                         Text(
                           state.user.cardNumber!.replaceAllMapped(
-                            RegExp(r",{4}"),
+                            RegExp(r'.{4}'),
                             (match) => "${match.group(0)} ",
                           ),
                           style: blackTextStyle.copyWith(

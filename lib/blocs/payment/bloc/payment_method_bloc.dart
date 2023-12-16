@@ -12,10 +12,10 @@ class PaymentMethodBloc extends Bloc<PaymentMethodEvent, PaymentMethodState> {
       if (event is PaymentMethodGet) {
         try {
           emit(PaymentMethodLoading());
-          final paymentmethod =
+          final PaymentMethod =
               await PaymentMethodService().getPaymentMethods();
 
-          emit(PaymentMethodSucces(paymentmethod));
+          emit(PaymentMethodSucces(PaymentMethod));
         } catch (e) {
           emit(
             PaymentMethodfailed(
