@@ -58,8 +58,8 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
             decimalDigits: 0,
             symbol: '',
           ).format(
-            int.tryParse(
-              text.replaceAll(RegExp(r'[^0-9]'), ''),
+            int.parse(
+              text.replaceAll('.', ''),
             ),
           ),
         );
@@ -80,6 +80,14 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
 
             if (state is TransactionSucces) {
               launchUrl(Uri.parse(state.redirectUrl));
+
+              context.read<AuthBloc>().add(
+                    AuthUpdateBalance(
+                      int.parse(
+                        amountcontroller.text.replaceAll('.', ''),
+                      ),
+                    ),
+                  );
 
               Navigator.pushNamedAndRemoveUntil(
                   context, '/topup-succes', (route) => false);

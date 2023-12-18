@@ -50,7 +50,6 @@ class AuthService {
         throw jsonDecode(res.body)['message'];
       }
     } catch (e) {
-      print(e);
       rethrow;
     }
   }

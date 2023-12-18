@@ -143,10 +143,10 @@ class _SignUpSetKtpPageState extends State<SignUpSetKtpPage> {
                                 ),
                               );
                         } else {
-                          print(state.toString());
+                          // print(state.toString());
                           customsnackbar(context, 'KTP harus diisi');
                         }
-                        print(widget.data.toString());
+                        // print(widget.data.toString());
                       },
                     ),
                   ],
@@ -161,7 +161,7 @@ class _SignUpSetKtpPageState extends State<SignUpSetKtpPage> {
                   context.read<AuthBloc>().add(
                         AuthRegister(widget.data),
                       );
-                  print(widget.data.toString());
+                  // print(widget.data.toString());
                 },
               ),
             ],

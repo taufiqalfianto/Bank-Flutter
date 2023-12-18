@@ -122,7 +122,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
               emit(AuthSuccess(updatedPin));
             }
-          } catch (e) {
+          } catch (e) { 
             emit(
               AuthFailed(
                 e.toString(),
@@ -144,8 +144,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             );
           }
         }
+
+        if (event is AuthUpdateBalance) {
+          if (state is AuthSuccess) {
+            final currentuser = (state as AuthSuccess).user;
+            final updatedUser = (state as AuthSuccess).user.copyWith(
+                  balance: currentuser.balance! + event.updateBalance,
+                );
+
+            emit(
+              AuthSuccess(updatedUser),
+            );
+          }
+        }
       },
     );
   }
-  
 }
