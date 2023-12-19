@@ -1,12 +1,32 @@
+import 'package:bank/blocs/user/user_bloc.dart';
+import 'package:bank/models/user_model.dart';
 import 'package:bank/shared/theme.dart';
 import 'package:bank/ui/widgets/buttons.dart';
 import 'package:bank/ui/widgets/forms.dart';
 import 'package:bank/ui/widgets/transfer_result_user_item.dart';
 import 'package:bank/ui/widgets/transfer_user_recent_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TransferPage extends StatelessWidget {
+class TransferPage extends StatefulWidget {
   const TransferPage({key});
+
+  @override
+  State<TransferPage> createState() => _TransferPageState();
+}
+
+class _TransferPageState extends State<TransferPage> {
+  final usernamecontroller = TextEditingController(text: '');
+  UserModel? selectedZUser;
+
+  late UserBloc userbloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    userbloc = context.read<UserBloc>()..add(getuserrecent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,22 +53,39 @@ class TransferPage extends StatelessWidget {
           CustomFormField(
             title: 'by Username',
             showtitle: false,
+            controller: usernamecontroller,
+            onfieldsubmited: (value) {
+              if (value.isNotEmpty) {
+                userbloc.add(getuserbyusername(value));
+              } else {
+                selectedZUser = null;
+                userbloc.add(getuserrecent());
+              }
+
+              setState(() {});
+            },
           ),
-          buildresult(),
+          usernamecontroller.text.isEmpty ? buildrecentuser() : buildresult(),
           SizedBox(
             height: 274,
-          ),
-          CustomFilledButton(
-            title: 'Continue',
-            onpressed: () {
-              Navigator.pushNamed(context, '/transfer-amount');
-            },
           ),
           SizedBox(
             height: 50,
           ),
         ],
       ),
+      floatingActionButton: selectedZUser != null
+          ? Container(
+              margin: EdgeInsets.all(24),
+              child: CustomFilledButton(
+                title: 'Continue',
+                onpressed: () {
+                  Navigator.pushNamed(context, '/transfer-amount');
+                },
+              ),
+            )
+          : Container(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -70,22 +107,25 @@ class TransferPage extends StatelessWidget {
           SizedBox(
             height: 14,
           ),
-          TransferRecentUserItem(
-            imageUrl: 'assets/img_friend1.png',
-            name: 'Yonna Jie',
-            username: 'yoenna',
-            isverified: true,
-          ),
-          TransferRecentUserItem(
-            imageUrl: 'assets/img_friend2.png',
-            name: 'John Hi',
-            username: 'jhi',
-          ),
-          TransferRecentUserItem(
-            imageUrl: 'assets/img_friend3.png',
-            name: 'Masayoshi',
-            username: 'form',
-          ),
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state is UserSucces) {
+                Column(
+                  children: state.user.map(
+                    (user) {
+                      return TransferRecentUserItem(user: user);
+                    },
+                  ).toList(),
+                );
+                print(state.user.toList());
+              } else {
+                Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Container();
+            },
+          )
         ],
       ),
     );
@@ -109,23 +149,34 @@ class TransferPage extends StatelessWidget {
           SizedBox(
             height: 14,
           ),
-          Wrap(
-            runSpacing: 14,
-            spacing: 14,
-            children: [
-              TransferResultItem(
-                imageUrl: 'assets/img_friend1.png',
-                name: 'Yonna Jie',
-                username: 'yoenna',
-                isverified: true,
-              ),
-              TransferResultItem(
-                imageUrl: 'assets/img_friend2.png',
-                name: 'Yonna Jie',
-                username: 'yoenna',
-                isselected: true,
-              ),
-            ],
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state is UserSucces) {
+                Wrap(
+                  runSpacing: 14,
+                  spacing: 14,
+                  children: state.user
+                      .map(
+                        (user) => GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedZUser = user;
+                            });
+                          },
+                          child: TransferResultItem(
+                            user: user,
+                            isselected: user.id == selectedZUser?.id,
+                          ),
+                        ),
+                      )
+                      .toList(),
+                );
+                print(state.user.toString());
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 import 'package:bank/blocs/auth/auth_bloc.dart';
+import 'package:bank/blocs/user/user_bloc.dart';
 import 'package:bank/shared/theme.dart';
 import 'package:bank/ui/pages/data_package_page.dart';
 import 'package:bank/ui/pages/data_provider_page.dart';
@@ -33,7 +34,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => AuthBloc()..add(AuthCurrentUser()),
-        )
+        ),
+        BlocProvider(
+          create: (context) => UserBloc(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
