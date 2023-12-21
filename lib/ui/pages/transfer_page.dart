@@ -1,6 +1,8 @@
 import 'package:bank/blocs/user/user_bloc.dart';
+import 'package:bank/models/transfer_form_model.dart';
 import 'package:bank/models/user_model.dart';
 import 'package:bank/shared/theme.dart';
+import 'package:bank/ui/pages/transfer_amount_page.dart';
 import 'package:bank/ui/widgets/buttons.dart';
 import 'package:bank/ui/widgets/forms.dart';
 import 'package:bank/ui/widgets/transfer_result_user_item.dart';
@@ -80,7 +82,16 @@ class _TransferPageState extends State<TransferPage> {
               child: CustomFilledButton(
                 title: 'Continue',
                 onpressed: () {
-                  Navigator.pushNamed(context, '/transfer-amount');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TransferAmountPage(
+                        data: TransferFormModel(
+                          sendto: selectedZUser!.username,
+                        ),
+                      ),
+                    ),
+                  );
                 },
               ),
             )
@@ -109,11 +120,26 @@ class _TransferPageState extends State<TransferPage> {
           ),
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
+              print(state.toString());
               if (state is UserSucces) {
                 Column(
                   children: state.user.map(
                     (user) {
-                      return TransferRecentUserItem(user: user);
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => TransferAmountPage(
+                                data: TransferFormModel(
+                                  sendto: user.username,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: TransferRecentUserItem(user: user),
+                      );
                     },
                   ).toList(),
                 );
@@ -151,6 +177,8 @@ class _TransferPageState extends State<TransferPage> {
           ),
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
+              print(state.toString());
+
               if (state is UserSucces) {
                 Wrap(
                   runSpacing: 14,

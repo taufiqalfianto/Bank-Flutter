@@ -62,7 +62,7 @@ class UserService {
 
       if (response.statusCode == 200) {
         return List<UserModel>.from(
-          jsonDecode(response.body).map(
+          jsonDecode(response.body)['data'].map(
             (user) => UserModel.fromJson(user),
           ),
         );
