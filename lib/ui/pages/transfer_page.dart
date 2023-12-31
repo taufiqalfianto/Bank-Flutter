@@ -26,7 +26,6 @@ class _TransferPageState extends State<TransferPage> {
   @override
   void initState() {
     super.initState();
-
     userbloc = context.read<UserBloc>()..add(getuserrecent());
   }
 
@@ -63,8 +62,6 @@ class _TransferPageState extends State<TransferPage> {
                 selectedZUser = null;
                 userbloc.add(getuserrecent());
               }
-
-              setState(() {});
             },
           ),
           usernamecontroller.text.isEmpty ? buildrecentuser() : buildresult(),
@@ -120,9 +117,10 @@ class _TransferPageState extends State<TransferPage> {
           ),
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
-              print(state.toString());
               if (state is UserSucces) {
-                Column(
+                return Wrap(
+                  runSpacing: 14,
+                  spacing: 14,
                   children: state.user.map(
                     (user) {
                       return GestureDetector(
@@ -142,11 +140,6 @@ class _TransferPageState extends State<TransferPage> {
                       );
                     },
                   ).toList(),
-                );
-                print(state.user.toList());
-              } else {
-                Center(
-                  child: CircularProgressIndicator(),
                 );
               }
               return Container();
@@ -177,10 +170,8 @@ class _TransferPageState extends State<TransferPage> {
           ),
           BlocBuilder<UserBloc, UserState>(
             builder: (context, state) {
-              print(state.toString());
-
               if (state is UserSucces) {
-                Wrap(
+                return Wrap(
                   runSpacing: 14,
                   spacing: 14,
                   children: state.user
@@ -199,10 +190,9 @@ class _TransferPageState extends State<TransferPage> {
                       )
                       .toList(),
                 );
-                print(state.user.toString());
               }
               return Center(
-                child: CircularProgressIndicator(),
+                child: Text('Recent user'),
               );
             },
           ),

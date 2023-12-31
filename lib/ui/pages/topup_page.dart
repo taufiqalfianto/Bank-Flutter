@@ -108,17 +108,16 @@ class _TopupPageState extends State<TopupPage> {
                   return Column(
                       children: state.paymentmethod.map((paymentmethod) {
                     return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedpaymentmethod = paymentmethod;
-                        });
-                      },
-                      child: BankItem(
-                        paymentmethod: paymentmethod,
-                        isSelected:
-                            paymentmethod.id == selectedpaymentmethod?.id,
-                      ),
-                    );
+                        onTap: () {
+                          setState(() {
+                            selectedpaymentmethod = paymentmethod;
+                          });
+                        },
+                        child: BankItem(
+                          paymentmethod: paymentmethod,
+                          isSelected:
+                              paymentmethod.id == selectedpaymentmethod?.id,
+                        ));
                   }).toList());
                 }
                 return Center(child: CircularProgressIndicator());

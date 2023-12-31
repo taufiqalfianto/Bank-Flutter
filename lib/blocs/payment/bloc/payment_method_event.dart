@@ -7,4 +7,4 @@ class PaymentMethodEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class PaymentMethodGet extends PaymentMethodEvent {}
+class  PaymentMethodGet extends PaymentMethodEvent {}

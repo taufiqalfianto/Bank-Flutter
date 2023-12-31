@@ -54,7 +54,7 @@ class UserService {
     try {
       final token = await AuthService().gettoken();
       final response = await http.get(
-        Uri.parse('$baseurl/user/$username'),
+        Uri.parse('$baseurl/users/' + username),
         headers: {
           'Authorization': token,
         },
@@ -62,7 +62,7 @@ class UserService {
 
       if (response.statusCode == 200) {
         return List<UserModel>.from(
-          jsonDecode(response.body)['data'].map(
+          jsonDecode(response.body).map(
             (user) => UserModel.fromJson(user),
           ),
         );
