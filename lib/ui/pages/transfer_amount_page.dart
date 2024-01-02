@@ -45,21 +45,22 @@ class _TransferAmountPageState extends State<TransferAmountPage> {
   @override
   void initState() {
     super.initState();
-    initState();
-    amountcontroller.addListener(() {
-      final text = amountcontroller.text;
-      amountcontroller.value = amountcontroller.value.copyWith(
-        text: NumberFormat.currency(
-          locale: 'id',
-          decimalDigits: 0,
-          symbol: '',
-        ).format(
-          int.parse(
-            text.replaceAll('.', ''),
+    amountcontroller.addListener(
+      () {
+        final text = amountcontroller.text;
+        amountcontroller.value = amountcontroller.value.copyWith(
+          text: NumberFormat.currency(
+            locale: 'id',
+            decimalDigits: 0,
+            symbol: '',
+          ).format(
+            int.parse(
+              text.replaceAll('.', ''),
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
   Widget build(BuildContext context) {

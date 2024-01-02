@@ -19,7 +19,7 @@ class TransferPage extends StatefulWidget {
 
 class _TransferPageState extends State<TransferPage> {
   final usernamecontroller = TextEditingController(text: '');
-  UserModel? selectedZUser;
+  UserModel? selectedUser;
 
   late UserBloc userbloc;
 
@@ -59,7 +59,7 @@ class _TransferPageState extends State<TransferPage> {
               if (value.isNotEmpty) {
                 userbloc.add(getuserbyusername(value));
               } else {
-                selectedZUser = null;
+                selectedUser = null;
                 userbloc.add(getuserrecent());
               }
             },
@@ -73,7 +73,7 @@ class _TransferPageState extends State<TransferPage> {
           ),
         ],
       ),
-      floatingActionButton: selectedZUser != null
+      floatingActionButton: selectedUser != null
           ? Container(
               margin: EdgeInsets.all(24),
               child: CustomFilledButton(
@@ -84,7 +84,7 @@ class _TransferPageState extends State<TransferPage> {
                     MaterialPageRoute(
                       builder: (context) => TransferAmountPage(
                         data: TransferFormModel(
-                          sendto: selectedZUser!.username,
+                          sendto: selectedUser!.username,
                         ),
                       ),
                     ),
@@ -179,12 +179,12 @@ class _TransferPageState extends State<TransferPage> {
                         (user) => GestureDetector(
                           onTap: () {
                             setState(() {
-                              selectedZUser = user;
+                              selectedUser = user;
                             });
                           },
                           child: TransferResultItem(
                             user: user,
-                            isselected: user.id == selectedZUser?.id,
+                            isselected: user.id == selectedUser?.id,
                           ),
                         ),
                       )
