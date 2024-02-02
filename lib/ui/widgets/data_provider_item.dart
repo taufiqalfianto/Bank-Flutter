@@ -1,17 +1,14 @@
+import 'package:bank/models/operator_card_model.dart';
 import 'package:bank/shared/theme.dart';
 import 'package:flutter/material.dart';
 
 class DataProviderItem extends StatelessWidget {
-  final String imgUrl;
-  final String provider;
-  final String status;
-  final bool isvalidate;
+  final OperatorCardModel operatorcard;
+  final bool isselected;
   const DataProviderItem({
     key,
-    required this.imgUrl,
-    required this.provider,
-    required this.status,
-    this.isvalidate = false,
+    required this.operatorcard,
+    this.isselected = false,
   });
 
   @override
@@ -25,14 +22,14 @@ class DataProviderItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         color: whiteColor,
         border: Border.all(
-          color: isvalidate ? blueColor : whiteColor,
+          color: isselected ? blueColor : whiteColor,
           width: 2,
         ),
       ),
       child: Row(
         children: [
-          Image.asset(
-            imgUrl,
+          Image.network(
+            operatorcard.thumbnail.toString(),
             height: 30,
           ),
           Spacer(),
@@ -40,14 +37,14 @@ class DataProviderItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                provider,
+                operatorcard.name.toString(),
                 style: blackTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: semiBold,
                 ),
               ),
               Text(
-                status,
+                operatorcard.status.toString(),
                 style: greyTextStyle.copyWith(
                   fontSize: 12,
                   fontWeight: medium,
