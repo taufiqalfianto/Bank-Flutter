@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bank/models/data_plan_form_model.dart';
 import 'package:bank/models/topup_form_model.dart';
+import 'package:bank/models/transaction_model.dart';
 import 'package:bank/models/transfer_form_model.dart';
 import 'package:bank/services/auth_service.dart';
 import 'package:bank/shared/shared_values.dart';
@@ -50,6 +51,7 @@ class TransactionService {
       rethrow;
     }
   }
+
   Future<void> dataplan(DataPlanFormModel data) async {
     try {
       final token = await AuthService().gettoken();
@@ -64,6 +66,33 @@ class TransactionService {
       );
 
       if (response.statusCode != 200) {
+        throw jsonDecode(response.body)['message'];
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<HistoryTransactionModel>> gethistorytansaction() async {
+    try {
+      final token = await AuthService().gettoken();
+      final response = await http.get(
+        Uri.parse(
+          '$baseurl/transactions',
+        ),
+        headers: {
+          'Authorization': token,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return List<HistoryTransactionModel>.from(
+          jsonDecode(response.body)['data'].map(
+            (historytansaction) =>
+                HistoryTransactionModel.fromJson(historytansaction),
+          ),
+        ).toList();
+      } else {
         throw jsonDecode(response.body)['message'];
       }
     } catch (e) {

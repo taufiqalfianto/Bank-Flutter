@@ -1,4 +1,5 @@
 import 'package:bank/blocs/auth/auth_bloc.dart';
+import 'package:bank/blocs/history_transaction/history_transaction_bloc.dart';
 import 'package:bank/shared/shared_method.dart';
 import 'package:bank/shared/theme.dart';
 import 'package:bank/ui/widgets/home_latest_transaction_item.dart';
@@ -365,39 +366,30 @@ class HomePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               color: whiteColor,
             ),
-            child: Column(
-              children: [
-                HomeLatestTransactionItem(
-                  iconUrl: 'assets/ic_transaction_cat1.png',
-                  title: 'Top Up',
-                  time: 'Yesterday',
-                  amount: '+ ${formatcurrency(450000)}',
-                ),
-                HomeLatestTransactionItem(
-                  iconUrl: 'assets/ic_transaction_cat2.png',
-                  title: 'Cashback',
-                  time: 'Sep 11',
-                  amount: '+ ${formatcurrency(22000)}',
-                ),
-                HomeLatestTransactionItem(
-                  iconUrl: 'assets/ic_transaction_cat3.png',
-                  title: 'TWithdraw',
-                  time: 'Sep 2',
-                  amount: '- ${formatcurrency(5000)}',
-                ),
-                HomeLatestTransactionItem(
-                  iconUrl: 'assets/ic_transaction_cat4.png',
-                  title: 'Transfer',
-                  time: 'Aug 27',
-                  amount: '- ${formatcurrency(123500)}',
-                ),
-                HomeLatestTransactionItem(
-                  iconUrl: 'assets/ic_transaction_cat5.png',
-                  title: 'Electric',
-                  time: 'Feb 18',
-                  amount: '- ${formatcurrency(12300000)}',
-                ),
-              ],
+            child: BlocProvider(
+              create: (context) =>
+                  HistoryTransactionBloc()..add(TransactionGet()),
+              child:
+                  BlocBuilder<HistoryTransactionBloc, HistoryTransactionState>(
+                builder: (context, state) {
+                  print('state');
+                  print(state.toString());
+                  if (state is HistoryTransactionSucces) {
+                    return Column(
+                      children: state.transaction.map(
+                        (transaction) {
+                          return HomeLatestTransactionItem(
+                            transaction: transaction,
+                          );
+                        },
+                      ).toList(),
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
             ),
           )
         ],

@@ -1,18 +1,15 @@
+import 'package:bank/models/transaction_model.dart';
+import 'package:bank/shared/shared_method.dart';
 import 'package:bank/shared/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HomeLatestTransactionItem extends StatelessWidget {
-  final String iconUrl;
-  final String title;
-  final String time;
-  final String amount;
+  final HistoryTransactionModel transaction;
 
   const HomeLatestTransactionItem({
     key,
-    required this.iconUrl,
-    required this.title,
-    required this.time,
-    required this.amount,
+    required this.transaction,
   });
 
   @override
@@ -28,26 +25,28 @@ class HomeLatestTransactionItem extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
             ),
-            child: Center(
-              child: Image.asset(
-                iconUrl,
-                width: 50,
-              ),
-            ),
+            // child: Center(
+            //   child: Image.network(
+            //     transaction.transactiontype!.thumbnail!,
+            //     width: 48,
+            //   ),
+            // ),
           ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  transaction.paymentMethods!.name!,
                   style: blackTextStyle.copyWith(
                     fontSize: 16,
                     fontWeight: semiBold,
                   ),
                 ),
                 Text(
-                  time,
+                  DateFormat('EEEE d HH:mm a').format(
+                    transaction.createdAt! ?? DateTime.now(),
+                  ),
                   style: blackTextStyle.copyWith(
                     fontSize: 12,
                   ),
@@ -56,7 +55,9 @@ class HomeLatestTransactionItem extends StatelessWidget {
             ),
           ),
           Text(
-            amount,
+            formatcurrency(transaction.amount ?? 0,
+                symbol:
+                    transaction.transactiontype?.action == 'cr' ? '+ ' : '- '),
             style: blackTextStyle.copyWith(
               fontSize: 16,
               fontWeight: semiBold,
