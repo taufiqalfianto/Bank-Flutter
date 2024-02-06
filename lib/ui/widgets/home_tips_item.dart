@@ -15,6 +15,8 @@ class HomeTipsitem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: () async {
         if (await canLaunchUrl(Uri.parse(url))) {
@@ -22,8 +24,8 @@ class HomeTipsitem extends StatelessWidget {
         }
       },
       child: Container(
-        height: 175,
-        width: 155,
+        height: height / 4,
+        width: width / 2.5,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: whiteColor,

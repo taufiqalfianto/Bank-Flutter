@@ -8,90 +8,93 @@ import 'package:bank/ui/widgets/home_tips_item.dart';
 import 'package:bank/ui/widgets/home_user_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomAppBar(
-        color: whiteColor,
-        shape: CircularNotchedRectangle(),
-        clipBehavior: Clip.antiAlias,
-        notchMargin: 12,
-        elevation: 0,
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
+    return Sizer(builder: (context, orientation, deviceType) {
+      return Scaffold(
+        bottomNavigationBar: BottomAppBar(
+          color: whiteColor,
+          shape: CircularNotchedRectangle(),
+          clipBehavior: Clip.antiAlias,
+          notchMargin: 12,
           elevation: 0,
-          backgroundColor: whiteColor,
-          selectedItemColor: blueColor,
-          unselectedItemColor: blackColor,
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          selectedLabelStyle: blueTextStyle.copyWith(
-            fontSize: 10,
-            fontWeight: medium,
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            elevation: 0,
+            backgroundColor: whiteColor,
+            selectedItemColor: blueColor,
+            unselectedItemColor: blackColor,
+            showSelectedLabels: true,
+            showUnselectedLabels: true,
+            selectedLabelStyle: blueTextStyle.copyWith(
+              fontSize: 10,
+              fontWeight: medium,
+            ),
+            unselectedLabelStyle: blackTextStyle.copyWith(
+              fontSize: 10,
+              fontWeight: medium,
+            ),
+            items: [
+              BottomNavigationBarItem(
+                icon: Image.asset(
+                  'assets/ic_overview.png',
+                  width: 24,
+                  color: blueColor,
+                ),
+                label: 'Overview',
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset(
+                  'assets/ic_history.png',
+                  width: 24,
+                ),
+                label: 'History',
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset(
+                  'assets/ic_statistic.png',
+                  width: 24,
+                ),
+                label: 'Statistic',
+              ),
+              BottomNavigationBarItem(
+                icon: Image.asset(
+                  'assets/ic_reward.png',
+                  width: 24,
+                ),
+                label: 'Reward',
+              ),
+            ],
           ),
-          unselectedLabelStyle: blackTextStyle.copyWith(
-            fontSize: 10,
-            fontWeight: medium,
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: purpleColor,
+          onPressed: () {},
+          child: Image.asset(
+            'assets/ic_plus_circle.png',
+            width: 24,
           ),
-          items: [
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/ic_overview.png',
-                width: 24,
-                color: blueColor,
-              ),
-              label: 'Overview',
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/ic_history.png',
-                width: 24,
-              ),
-              label: 'History',
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/ic_statistic.png',
-                width: 24,
-              ),
-              label: 'Statistic',
-            ),
-            BottomNavigationBarItem(
-              icon: Image.asset(
-                'assets/ic_reward.png',
-                width: 24,
-              ),
-              label: 'Reward',
-            ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        body: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 24),
+          children: [
+            buildprofile(context),
+            buildwalletcard(),
+            buildlevel(context),
+            buildservices(context),
+            buildlatesttransaction(),
+            buildsendagain(),
+            buildfriendlytips(context),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: purpleColor,
-        onPressed: () {},
-        child: Image.asset(
-          'assets/ic_plus_circle.png',
-          width: 24,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 24),
-        children: [
-          buildprofile(context),
-          buildwalletcard(),
-          buildlevel(),
-          buildservices(context),
-          buildlatesttransaction(),
-          buildsendagain(),
-          buildfriendlytips(),
-        ],
-      ),
-    );
+      );
+    });
   }
 
   Widget buildprofile(BuildContext context) {
@@ -108,16 +111,16 @@ class HomePage extends StatelessWidget {
                     Text(
                       state.user.name.toString(),
                       style: blackTextStyle.copyWith(
-                        fontSize: 16,
+                        fontSize: 15.sp,
                       ),
                     ),
-                    Text(
-                      'shaynahan',
-                      style: blackTextStyle.copyWith(
-                        fontSize: 16,
-                        fontWeight: semiBold,
-                      ),
-                    ),
+                    // Text(
+                    //   state.user.name.toString(),
+                    //   style: blackTextStyle.copyWith(
+                    //     fontSize: 16,
+                    //     fontWeight: semiBold,
+                    //   ),
+                    // ),
                   ],
                 ),
                 Spacer(),
@@ -126,8 +129,8 @@ class HomePage extends StatelessWidget {
                     Navigator.pushNamed(context, '/profile');
                   },
                   child: Container(
-                    width: 60,
-                    height: 60,
+                    width: 15.w,
+                    height: 8.h,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
@@ -145,8 +148,8 @@ class HomePage extends StatelessWidget {
                         ? Align(
                             alignment: Alignment.topRight,
                             child: Container(
-                              width: 16,
-                              height: 16,
+                              width: 3.h,
+                              height: 17,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: whiteColor,
@@ -155,7 +158,7 @@ class HomePage extends StatelessWidget {
                                 child: Icon(
                                   Icons.check_circle,
                                   color: greenColor,
-                                  size: 14,
+                                  size: 2.5.h,
                                 ),
                               ),
                             ),
@@ -176,56 +179,59 @@ class HomePage extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthSuccess) {
-          return Container(
-            width: double.infinity,
-            height: 220,
-            margin: EdgeInsets.only(top: 30),
-            padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(28),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage('assets/img_bg_card.png'),
+          return AspectRatio(
+            aspectRatio: 16 / 12,
+            child: Container(
+              width: double.infinity,
+              height: 220,
+              margin: EdgeInsets.only(top: 30),
+              padding: EdgeInsets.all(4.h),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(28),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/img_bg_card.png'),
+                ),
               ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  state.user.name.toString(),
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 18,
-                    fontWeight: medium,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    state.user.name.toString(),
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 15.sp,
+                      fontWeight: medium,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 28,
-                ),
-                Text(
-                  '**** **** **** ${state.user.cardNumber!.substring(12, 16)}',
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 18,
-                    fontWeight: medium,
-                    letterSpacing: 6,
+                  SizedBox(
+                    height: 1.h,
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Reguler',
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 14,
+                  Text(
+                    '**** **** **** ${state.user.cardNumber!.substring(12, 16)}',
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 15.sp,
+                      fontWeight: medium,
+                      letterSpacing: 6,
+                    ),
                   ),
-                ),
-                Text(
-                  formatcurrency(state.user.balance ?? 0),
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 24,
-                    fontWeight: semiBold,
+                  SizedBox(
+                    height: 1.h,
                   ),
-                ),
-              ],
+                  Text(
+                    'Reguler',
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 13.sp,
+                    ),
+                  ),
+                  Text(
+                    formatcurrency(state.user.balance ?? 0),
+                    style: whiteTextStyle.copyWith(
+                      fontSize: 17.sp,
+                      fontWeight: semiBold,
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }
@@ -234,10 +240,10 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildlevel() {
+  Widget buildlevel(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 80,
+      height: MediaQuery.of(context).size.height / 7.2,
       margin: EdgeInsets.only(top: 20),
       padding: EdgeInsets.all(22),
       decoration: BoxDecoration(
@@ -245,13 +251,14 @@ class HomePage extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center ,
         children: [
           Row(
             children: [
               Text(
                 'Level 1',
                 style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 10.sp,
                   fontWeight: medium,
                 ),
               ),
@@ -259,21 +266,21 @@ class HomePage extends StatelessWidget {
               Text(
                 '55%',
                 style: greenTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 11.sp,
                   fontWeight: semiBold,
                 ),
               ),
               Text(
                 ' of ${formatcurrency(20000)}',
                 style: blackTextStyle.copyWith(
-                  fontSize: 14,
+                  fontSize: 11.sp,
                   fontWeight: semiBold,
                 ),
               ),
             ],
           ),
           SizedBox(
-            height: 10,
+            height: MediaQuery.of(context).size.height / 45,
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(55),
@@ -298,7 +305,7 @@ class HomePage extends StatelessWidget {
           Text(
             'Do Something',
             style: blackTextStyle.copyWith(
-              fontSize: 16,
+              fontSize: 13.sp,
               fontWeight: semiBold,
             ),
           ),
@@ -353,12 +360,12 @@ class HomePage extends StatelessWidget {
           Text(
             'Latest Transaction',
             style: blackTextStyle.copyWith(
-              fontSize: 16,
+              fontSize: 13.sp,
               fontWeight: semiBold,
             ),
           ),
           SizedBox(
-            height: 14,
+            height: 3.h,
           ),
           Container(
             padding: EdgeInsets.all(22),
@@ -441,7 +448,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildfriendlytips() {
+  Widget buildfriendlytips(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
         top: 30,
@@ -523,43 +530,45 @@ class MoreDialog extends StatelessWidget {
               SizedBox(
                 height: 13,
               ),
-              Wrap(
-                spacing: MediaQuery.of(context).size.width * 0.13,
-                runSpacing: 29,
-                children: [
-                  HomeServicesItem(
-                    iconUrl: 'assets/ic_product_data.png',
-                    title: 'Data',
-                    ontap: () {
-                      Navigator.pushNamed(context, '/data-provider');
-                    },
-                  ),
-                  HomeServicesItem(
-                    iconUrl: 'assets/ic_product_water.png',
-                    title: 'Water',
-                    ontap: () {},
-                  ),
-                  HomeServicesItem(
-                    iconUrl: 'assets/ic_product_stream.png',
-                    title: 'Stream',
-                    ontap: () {},
-                  ),
-                  HomeServicesItem(
-                    iconUrl: 'assets/ic_product_movie.png',
-                    title: 'Movie',
-                    ontap: () {},
-                  ),
-                  HomeServicesItem(
-                    iconUrl: 'assets/ic_product_food.png',
-                    title: 'Food',
-                    ontap: () {},
-                  ),
-                  HomeServicesItem(
-                    iconUrl: 'assets/ic_product_travel.png',
-                    title: 'Travel',
-                    ontap: () {},
-                  ),
-                ],
+              Center(
+                child: Wrap(
+                  spacing: MediaQuery.of(context).size.width / 10,
+                  runSpacing: 29,
+                  children: [
+                    HomeServicesItem(
+                      iconUrl: 'assets/ic_product_data.png',
+                      title: 'Data',
+                      ontap: () {
+                        Navigator.pushNamed(context, '/data-provider');
+                      },
+                    ),
+                    HomeServicesItem(
+                      iconUrl: 'assets/ic_product_water.png',
+                      title: 'Water',
+                      ontap: () {},
+                    ),
+                    HomeServicesItem(
+                      iconUrl: 'assets/ic_product_stream.png',
+                      title: 'Stream',
+                      ontap: () {},
+                    ),
+                    HomeServicesItem(
+                      iconUrl: 'assets/ic_product_movie.png',
+                      title: 'Movie',
+                      ontap: () {},
+                    ),
+                    HomeServicesItem(
+                      iconUrl: 'assets/ic_product_food.png',
+                      title: 'Food',
+                      ontap: () {},
+                    ),
+                    HomeServicesItem(
+                      iconUrl: 'assets/ic_product_travel.png',
+                      title: 'Travel',
+                      ontap: () {},
+                    ),
+                  ],
+                ),
               )
             ],
           ),

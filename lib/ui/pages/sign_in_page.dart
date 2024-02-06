@@ -6,6 +6,7 @@ import 'package:bank/ui/widgets/buttons.dart';
 import 'package:bank/ui/widgets/forms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sizer/sizer.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({key});
@@ -46,12 +47,12 @@ class _SignInPageState extends State<SignInPage> {
           );
         }
         return ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24),
+          padding: EdgeInsets.symmetric(horizontal: 5.h),
           children: [
             Container(
-              margin: EdgeInsets.only(top: 100, bottom: 100),
-              width: 155,
-              height: 50,
+              margin: EdgeInsets.only(top: 10.h, bottom: 10.h),
+              width: 25.h,
+              height: 8.h,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/img_logo_light.png'),
@@ -61,17 +62,17 @@ class _SignInPageState extends State<SignInPage> {
             Text(
               'Sign In &\nGrow Your Finance',
               style: blackTextStyle.copyWith(
-                fontSize: 20,
+                fontSize: 15.sp,
                 fontWeight: semiBold,
               ),
             ),
             SizedBox(
-              height: 30,
+              height: 1.h,
             ),
             Container(
-              padding: EdgeInsets.all(22),
+              padding: EdgeInsets.all(3.h),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(3.h),
                 color: whiteColor,
               ),
               child: Column(
@@ -83,7 +84,7 @@ class _SignInPageState extends State<SignInPage> {
                     controller: emailcontroller,
                   ),
                   SizedBox(
-                    height: 16,
+                    height: 3.h,
                   ),
                   //PASSWORD
                   CustomFormField(
@@ -92,19 +93,19 @@ class _SignInPageState extends State<SignInPage> {
                     controller: passwordcontroller,
                   ),
                   SizedBox(
-                    height: 8,
+                    height: 3.h,
                   ),
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
                       'Forgot Password',
                       style: blueTextStyle.copyWith(
-                        fontSize: 14,
+                        fontSize: 10.sp,
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 5.h,
                   ),
                   CustomFilledButton(
                     title: 'Sign In',
@@ -131,13 +132,16 @@ class _SignInPageState extends State<SignInPage> {
               ),
             ),
             SizedBox(
-              height: 50,
+              height: 7.h,
             ),
             CustomTextWidget(
               title: 'Create New Account',
               onpressed: () {
                 Navigator.pushNamed(context, '/sign-up');
               },
+            ),
+            SizedBox(
+              height: 5.h,
             ),
           ],
         );

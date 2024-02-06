@@ -1,5 +1,6 @@
 import 'package:bank/shared/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class HomeServicesItem extends StatelessWidget {
   final String iconUrl;
@@ -28,7 +29,7 @@ class HomeServicesItem extends StatelessWidget {
             child: Center(
               child: Image.asset(
                 iconUrl,
-                width: 26,
+                width: 7.w,
               ),
             ),
           ),
@@ -38,7 +39,7 @@ class HomeServicesItem extends StatelessWidget {
           Text(
             title,
             style: blackTextStyle.copyWith(
-              fontSize: 14,
+              fontSize: 11.sp,
               fontWeight: medium,
             ),
           ),

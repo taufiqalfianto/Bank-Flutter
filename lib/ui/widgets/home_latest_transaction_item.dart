@@ -3,6 +3,7 @@ import 'package:bank/shared/shared_method.dart';
 import 'package:bank/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sizer/sizer.dart';
 
 class HomeLatestTransactionItem extends StatelessWidget {
   final HistoryTransactionModel transaction;
@@ -25,21 +26,21 @@ class HomeLatestTransactionItem extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
             ),
-            // child: Center(
-            //   child: Image.network(
-            //     transaction.transactiontype!.thumbnail!,
-            //     width: 48,
-            //   ),
-            // ),
+            child: Center(
+              child: Image.asset(
+                'assets/img_friend1.png',
+                width: 15.w,
+              ),
+            ),
           ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  transaction.paymentMethods!.name!,
+                  transaction.transactiontype!.name!,
                   style: blackTextStyle.copyWith(
-                    fontSize: 16,
+                    fontSize: 12.sp,
                     fontWeight: semiBold,
                   ),
                 ),
@@ -48,7 +49,7 @@ class HomeLatestTransactionItem extends StatelessWidget {
                     transaction.createdAt! ?? DateTime.now(),
                   ),
                   style: blackTextStyle.copyWith(
-                    fontSize: 12,
+                    fontSize: 8.sp,
                   ),
                 ),
               ],
@@ -59,7 +60,7 @@ class HomeLatestTransactionItem extends StatelessWidget {
                 symbol:
                     transaction.transactiontype?.action == 'cr' ? '+ ' : '- '),
             style: blackTextStyle.copyWith(
-              fontSize: 16,
+              fontSize: 12.sp,
               fontWeight: semiBold,
             ),
           ),
