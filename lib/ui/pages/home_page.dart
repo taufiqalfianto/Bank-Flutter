@@ -1,7 +1,11 @@
 import 'package:bank/blocs/auth/auth_bloc.dart';
 import 'package:bank/blocs/history_transaction/history_transaction_bloc.dart';
+import 'package:bank/blocs/tips/tips_bloc.dart';
+import 'package:bank/blocs/user/user_bloc.dart';
+import 'package:bank/models/transfer_form_model.dart';
 import 'package:bank/shared/shared_method.dart';
 import 'package:bank/shared/theme.dart';
+import 'package:bank/ui/pages/transfer_amount_page.dart';
 import 'package:bank/ui/widgets/navigation_bar.dart';
 import 'package:bank/ui/widgets/home_latest_transaction_item.dart';
 import 'package:bank/ui/widgets/home_services_item.dart';
@@ -329,8 +333,10 @@ class HomePage extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return BlocProvider(
-                    create: (context) =>
-                        HistoryTransactionBloc()..add(TransactionGet(),),
+                    create: (context) => HistoryTransactionBloc()
+                      ..add(
+                        TransactionGet(),
+                      ),
                     child: BlocBuilder<HistoryTransactionBloc,
                         HistoryTransactionState>(
                       builder: (context, state) {
@@ -374,27 +380,42 @@ class HomePage extends StatelessWidget {
           SizedBox(
             height: 14,
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                HomeUserItem(
-                  imgUrl: 'assets/img_friend1.png',
-                  username: 'Yuanita',
-                ),
-                HomeUserItem(
-                  imgUrl: 'assets/img_friend2.png',
-                  username: 'Jani',
-                ),
-                HomeUserItem(
-                  imgUrl: 'assets/img_friend3.png',
-                  username: 'Urip',
-                ),
-                HomeUserItem(
-                  imgUrl: 'assets/img_friend4.png',
-                  username: 'Masa',
-                ),
-              ],
+          BlocProvider(
+            create: (context) => UserBloc()..add(getuserrecent()),
+            child: BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if (state is UserSucces) {
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: state.user
+                          .map(
+                            (user) => GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TransferAmountPage(
+                                      data: TransferFormModel(
+                                        sendto: user.username,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: HomeUserItem(
+                                user: user,
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  );
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             ),
           )
         ],
@@ -421,31 +442,26 @@ class HomePage extends StatelessWidget {
           SizedBox(
             height: 14,
           ),
-          Wrap(
-            spacing: 17,
-            runSpacing: 18,
-            children: [
-              HomeTipsitem(
-                imageUrl: 'assets/img_tips1.png',
-                title: 'Best tips for using a credit card',
-                url: 'https://www.google.com',
-              ),
-              HomeTipsitem(
-                imageUrl: 'assets/img_tips2.png',
-                title: 'Spot the good pie of finance model',
-                url: 'https://www.instagram.com/',
-              ),
-              HomeTipsitem(
-                imageUrl: 'assets/img_tips3.png',
-                title: 'Great hack to get better advices',
-                url: 'https://www.instagram.com/',
-              ),
-              HomeTipsitem(
-                imageUrl: 'assets/img_tips4.png',
-                title: 'Save more penny buy this instead',
-                url: 'https://www.instagram.com/',
-              ),
-            ],
+          BlocProvider(
+            create: (context) => TipsBloc()..add(TipsMethodGet()),
+            child: BlocBuilder<TipsBloc, TipsState>(
+              builder: (context, state) {
+                print(state.toString());
+                if (state is TipsSuccces) {
+                  return Wrap(
+                    spacing: 17,
+                    runSpacing: 18,
+                    children: state.tips
+                        .map((tips) => HomeTipsitem(tips: tips))
+                        .toList(),
+                  );
+                }
+
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
           ),
         ],
       ),
