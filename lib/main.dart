@@ -3,6 +3,7 @@ import 'package:bank/blocs/user/user_bloc.dart';
 import 'package:bank/shared/theme.dart';
 import 'package:bank/ui/pages/data_provider_page.dart';
 import 'package:bank/ui/pages/data_succes_page.dart';
+import 'package:bank/ui/pages/history_page.dart';
 import 'package:bank/ui/pages/home_page.dart';
 import 'package:bank/ui/pages/onboarding_page.dart';
 import 'package:bank/ui/pages/pin_page.dart';
@@ -10,10 +11,12 @@ import 'package:bank/ui/pages/profile_edit_page.dart';
 import 'package:bank/ui/pages/profile_edit_pin.dart';
 import 'package:bank/ui/pages/profile_edit_succes.dart';
 import 'package:bank/ui/pages/profile_page.dart';
+import 'package:bank/ui/pages/reward_page.dart';
 import 'package:bank/ui/pages/sign_in_page.dart';
 import 'package:bank/ui/pages/sign_up_page.dart';
 import 'package:bank/ui/pages/sign_up_succes.dart';
 import 'package:bank/ui/pages/splash_page.dart';
+import 'package:bank/ui/pages/statistic_page.dart';
 import 'package:bank/ui/pages/topup_page.dart';
 import 'package:bank/ui/pages/topup_succes_page.dart';
 import 'package:bank/ui/pages/transfer_page.dart';
@@ -59,6 +62,9 @@ class MyApp extends StatelessWidget {
           '/sign-up': (context) => SignUpPage(),
           '/sign-up-succes': (context) => SignUpSucces(),
           '/home': (context) => HomePage(),
+          '/history': (context) => HistoryPage(),
+          '/rewards': (context) => RewardPage(),
+          '/statistics': (context) => StatisticPage(),
           '/profile': (context) => ProfilePage(),
           '/pin': (context) => PinPage(),
           '/edit-profile': (context) => EditProfile(),

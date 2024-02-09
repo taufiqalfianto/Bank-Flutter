@@ -78,7 +78,11 @@ class _TopupAmountPageState extends State<TopupAmountPage> {
               customsnackbar(context, state.e);
             }
 
-            if (state is TransactionSucces) {
+            if (state is TransactionLoading) {
+              Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is TransactionSucces) {
               launchUrl(Uri.parse(state.redirectUrl));
 
               context.read<AuthBloc>().add(

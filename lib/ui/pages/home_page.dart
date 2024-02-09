@@ -2,6 +2,7 @@ import 'package:bank/blocs/auth/auth_bloc.dart';
 import 'package:bank/blocs/history_transaction/history_transaction_bloc.dart';
 import 'package:bank/shared/shared_method.dart';
 import 'package:bank/shared/theme.dart';
+import 'package:bank/ui/widgets/navigation_bar.dart';
 import 'package:bank/ui/widgets/home_latest_transaction_item.dart';
 import 'package:bank/ui/widgets/home_services_item.dart';
 import 'package:bank/ui/widgets/home_tips_item.dart';
@@ -15,86 +16,28 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Sizer(builder: (context, orientation, deviceType) {
-      return Scaffold(
-        bottomNavigationBar: BottomAppBar(
-          color: whiteColor,
-          shape: CircularNotchedRectangle(),
-          clipBehavior: Clip.antiAlias,
-          notchMargin: 12,
-          elevation: 0,
-          child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            elevation: 0,
-            backgroundColor: whiteColor,
-            selectedItemColor: blueColor,
-            unselectedItemColor: blackColor,
-            showSelectedLabels: true,
-            showUnselectedLabels: true,
-            selectedLabelStyle: blueTextStyle.copyWith(
-              fontSize: 10,
-              fontWeight: medium,
-            ),
-            unselectedLabelStyle: blackTextStyle.copyWith(
-              fontSize: 10,
-              fontWeight: medium,
-            ),
-            items: [
-              BottomNavigationBarItem(
-                icon: Image.asset(
-                  'assets/ic_overview.png',
-                  width: 24,
-                  color: blueColor,
-                ),
-                label: 'Overview',
-              ),
-              BottomNavigationBarItem(
-                icon: Image.asset(
-                  'assets/ic_history.png',
-                  width: 24,
-                ),
-                label: 'History',
-              ),
-              BottomNavigationBarItem(
-                icon: Image.asset(
-                  'assets/ic_statistic.png',
-                  width: 24,
-                ),
-                label: 'Statistic',
-              ),
-              BottomNavigationBarItem(
-                icon: Image.asset(
-                  'assets/ic_reward.png',
-                  width: 24,
-                ),
-                label: 'Reward',
-              ),
+    return SafeArea(
+      child: Sizer(builder: (context, orientation, deviceType) {
+        return Scaffold(
+          bottomNavigationBar: BottomNavBar(),
+          floatingActionButton: FloatButton(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          body: ListView(
+            padding: EdgeInsets.symmetric(horizontal: 24),
+            children: [
+              buildprofile(context),
+              buildwalletcard(),
+              buildlevel(context),
+              buildservices(context),
+              buildlatesttransaction(),
+              buildsendagain(),
+              buildfriendlytips(context),
             ],
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: purpleColor,
-          onPressed: () {},
-          child: Image.asset(
-            'assets/ic_plus_circle.png',
-            width: 24,
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        body: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24),
-          children: [
-            buildprofile(context),
-            buildwalletcard(),
-            buildlevel(context),
-            buildservices(context),
-            buildlatesttransaction(),
-            buildsendagain(),
-            buildfriendlytips(context),
-          ],
-        ),
-      );
-    });
+        );
+      }),
+    );
   }
 
   Widget buildprofile(BuildContext context) {
@@ -241,58 +184,65 @@ class HomePage extends StatelessWidget {
   }
 
   Widget buildlevel(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height / 7.2,
-      margin: EdgeInsets.only(top: 20),
-      padding: EdgeInsets.all(22),
-      decoration: BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center ,
-        children: [
-          Row(
-            children: [
-              Text(
-                'Level 1',
-                style: blackTextStyle.copyWith(
-                  fontSize: 10.sp,
-                  fontWeight: medium,
-                ),
-              ),
-              Spacer(),
-              Text(
-                '55%',
-                style: greenTextStyle.copyWith(
-                  fontSize: 11.sp,
-                  fontWeight: semiBold,
-                ),
-              ),
-              Text(
-                ' of ${formatcurrency(20000)}',
-                style: blackTextStyle.copyWith(
-                  fontSize: 11.sp,
-                  fontWeight: semiBold,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 45,
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(55),
-            child: LinearProgressIndicator(
-              value: 0.5,
-              minHeight: 5,
-              valueColor: AlwaysStoppedAnimation(greenColor),
-              backgroundColor: lightBackgroundColor,
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is AuthSuccess) {
+          return Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height / 7.2,
+            margin: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.all(22),
+            decoration: BoxDecoration(
+              color: whiteColor,
+              borderRadius: BorderRadius.circular(20),
             ),
-          )
-        ],
-      ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Level 1',
+                      style: blackTextStyle.copyWith(
+                        fontSize: 12.sp,
+                        fontWeight: medium,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      '55%',
+                      style: greenTextStyle.copyWith(
+                        fontSize: 12.sp,
+                        fontWeight: semiBold,
+                      ),
+                    ),
+                    Text(
+                      ' of ${state.user.balance.toString()}',
+                      style: blackTextStyle.copyWith(
+                        fontSize: 12.sp,
+                        fontWeight: semiBold,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 45,
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(55),
+                  child: LinearProgressIndicator(
+                    value: 0.5,
+                    minHeight: 5,
+                    valueColor: AlwaysStoppedAnimation(greenColor),
+                    backgroundColor: lightBackgroundColor,
+                  ),
+                )
+              ],
+            ),
+          );
+        }
+        return Container();
+      },
     );
   }
 
@@ -369,35 +319,39 @@ class HomePage extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.all(22),
+            height: 50.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: whiteColor,
             ),
-            child: BlocProvider(
-              create: (context) =>
-                  HistoryTransactionBloc()..add(TransactionGet()),
-              child:
-                  BlocBuilder<HistoryTransactionBloc, HistoryTransactionState>(
-                builder: (context, state) {
-                  print('state');
-                  print(state.toString());
-                  if (state is HistoryTransactionSucces) {
-                    return Column(
-                      children: state.transaction.map(
-                        (transaction) {
-                          return HomeLatestTransactionItem(
-                            transaction: transaction,
+            child: ListView.builder(
+                itemCount: 5,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return BlocProvider(
+                    create: (context) =>
+                        HistoryTransactionBloc()..add(TransactionGet(),),
+                    child: BlocBuilder<HistoryTransactionBloc,
+                        HistoryTransactionState>(
+                      builder: (context, state) {
+                        if (state is HistoryTransactionSucces) {
+                          return Column(
+                            children: state.transaction.map(
+                              (transaction) {
+                                return HomeLatestTransactionItem(
+                                  transaction: transaction,
+                                );
+                              },
+                            ).toList(),
                           );
-                        },
-                      ).toList(),
-                    );
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(),
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    ),
                   );
-                },
-              ),
-            ),
+                }),
           )
         ],
       ),
